@@ -1,0 +1,8 @@
+{
+  "singleQuote": true,
+  "useTabs": false,
+  "arrowParens": "always",
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+	"endOfLine": "auto"
+}
