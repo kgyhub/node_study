@@ -32,8 +32,10 @@
     "xo": "0.48.0"
   },
   "dependencies": {
+    "@types/koa-bodyparser": "4.3.7",
     "koa": "2.13.4",
     "koa-body": "4.2.0",
+    "koa-bodyparser": "4.3.0",
     "koa-router": "10.1.1",
     "reflect-metadata": "0.1.13",
     "sqlite3": "4.2.0",

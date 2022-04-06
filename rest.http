@@ -4,9 +4,28 @@ GET http://localhost:8080/api/todos
 Content-Type: application/json
 
 ###
-POST http://localhost:8080/api/todo HTTP/1.1
+
+GET http://localhost:8080/api/todo/b5sll9sljlg
 Content-Type: application/json
 
+###
+
+PUT http://localhost:8080/api/todos/eokck39t0 HTTP/1.1
+Content-Type: application/json
+
+{
+    "title":"put test title",
+    "completed" : true
+}
+
+###
+
+POST http://localhost:8080/api/todo/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "post test title 8"
+}
 
 ###
 
