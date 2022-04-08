@@ -10,12 +10,12 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/api/todos/eokck39t0 HTTP/1.1
+PUT http://localhost:8080/api/todos/gfa8rmeu4b8 HTTP/1.1
 Content-Type: application/json
 
 {
     "title":"put test title",
-    "completed" : true
+    "completed" : 0
 }
 
 ###
