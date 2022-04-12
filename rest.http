@@ -14,7 +14,7 @@ PUT http://localhost:8080/api/todos/gfa8rmeu4b8 HTTP/1.1
 Content-Type: application/json
 
 {
-    "title":"put test title",
+    "title":"put test title putpupupu",
     "completed" : 0
 }
 
@@ -24,7 +24,7 @@ POST http://localhost:8080/api/todo/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "title": "post test title 11"
+    "title": "post test title 16"
 }
 
 ###

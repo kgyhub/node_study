@@ -26,7 +26,6 @@ export class UserService {
   }
 
   async getAllItems() {
-    console.log('Using token: getAllItems', this.token);
     const sql = 'SELECT * FROM todo_item';
     db.all(sql, [], (error, rows) => {
       if (error) {
@@ -52,22 +51,22 @@ export class UserService {
   }
 
   async updateItem(uid: string, title: string, completed: string) {
-    console.log(title);
-    db.run(
-      `UPDATE todo_item SET title='${title}' AND completed=${completed} WHERE id='${uid}'`,
-      function (error) {
-        if (error) {
-          console.log(error.message);
-          return false;
-        }
+    return new Promise((resolve, reject) => {
+      db.run(
+        `UPDATE todo_item SET title='${title}' AND completed=${completed} WHERE id='${uid}'`,
+        function (error) {
+          if (error) {
+            reject(error);
+          }
 
-        console.log(`A row has been updated with rowid ${uid}`);
-      }
-    );
+          console.log(`A row has been updated with rowid ${uid}`);
+          resolve({ uid, title, completed });
+        }
+      );
+    });
   }
 
-  async insertOneItem(title: string) {
-    const uid = this.token;
+  async insertOneItem(uid: string, title: string) {
     return new Promise((resolve, reject) => {
       db.run(
         `INSERT INTO todo_item(id,title,completed,createdAt) VALUES('${uid}','${title}', 1, CURRENT_TIMESTAMP)`,
@@ -75,7 +74,7 @@ export class UserService {
           if (error) {
             // Console.log(error.message);
             // return false;
-            reject(error.message);
+            reject(error);
           }
 
           console.log(`A row has been inserted with rowid ${uid}`);
@@ -85,19 +84,18 @@ export class UserService {
     });
   }
 
-  async deleteItem() {
+  async deleteItem(): Promise<{ uid: string }> {
     const uid = this.token;
     return new Promise((resolve, reject) => {
-      db.run(`DELETE FROM todo_item WHERE id = '${uid}'`, function (error) {
+      db.run(`DELETE FROM todo_item WHERE id = ?`, uid, (error) => {
         if (error) {
           // Console.log(error.message);
-          reject(error.message);
+          reject(error);
         }
 
         console.log(`Deleted ${uid}`);
+        resolve({ uid });
       });
-
-      resolve({ uid });
     });
   }
 }
