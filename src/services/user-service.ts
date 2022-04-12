@@ -66,17 +66,38 @@ export class UserService {
     );
   }
 
-  async insertOneItem(uid: string, title: string) {
-    db.run(
-      `INSERT INTO todo_item(id,title,completed,createdAt) VALUES('${uid}','${title}', 1, CURRENT_TIMESTAMP)`,
-      function (error) {
+  async insertOneItem(title: string) {
+    const uid = this.token;
+    return new Promise((resolve, reject) => {
+      db.run(
+        `INSERT INTO todo_item(id,title,completed,createdAt) VALUES('${uid}','${title}', 1, CURRENT_TIMESTAMP)`,
+        function (error) {
+          if (error) {
+            // Console.log(error.message);
+            // return false;
+            reject(error.message);
+          }
+
+          console.log(`A row has been inserted with rowid ${uid}`);
+          resolve({ uid });
+        }
+      );
+    });
+  }
+
+  async deleteItem() {
+    const uid = this.token;
+    return new Promise((resolve, reject) => {
+      db.run(`DELETE FROM todo_item WHERE id = '${uid}'`, function (error) {
         if (error) {
-          console.log(error.message);
-          return false;
+          // Console.log(error.message);
+          reject(error.message);
         }
 
-        console.log(`A row has been inserted with rowid ${uid}`);
-      }
-    );
+        console.log(`Deleted ${uid}`);
+      });
+
+      resolve({ uid });
+    });
   }
 }

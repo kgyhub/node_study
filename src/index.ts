@@ -5,12 +5,12 @@ import Router from 'koa-router';
 import koaBody from 'koa-bodyparser';
 import { UserService } from './services/user-service';
 
-interface TodoItem {
-  id: string; // 유니크 아이디
-  title: string; // 제목
-  completed: boolean; // 완료 여부
-  createAt: number; // 생성 시각(밀리세컨드)
-}
+// Interface TodoItem {
+//   id: string; // 유니크 아이디
+//   title: string; // 제목
+//   completed: boolean; // 완료 여부
+//   createAt: number; // 생성 시각(밀리세컨드)
+// }
 
 const router = new Router();
 const app = new Koa();
@@ -53,10 +53,25 @@ router.put('/api/todos/:id', async (ctx) => {
 router.post('/api/todo', async (ctx) => {
   const uid = Math.random().toString(32).slice(2);
   const posttitle = JSON.stringify(ctx.request.body.title);
+  const userService = new UserService(uid);
 
-  // Await userService.insertOneItem(uid, posttitle);
+  await userService
+    .insertOneItem(posttitle)
+    .then((value) => {
+      ctx.body = { value };
+    })
+    .catch(console.log);
+});
 
-  ctx.body = { uid, posttitle };
+router.delete('/api/todos/:id', async (ctx) => {
+  const uid = ctx.params.id;
+  const userService = new UserService(uid);
+  await userService
+    .deleteItem()
+    .then((value) => {
+      ctx.body = { value };
+    })
+    .catch(console.log);
 });
 
 app.use(router.routes());
